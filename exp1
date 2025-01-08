@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+
+// Function to perform bit stuffing
+void bitStuffing(char input[], char output[]) {
+    int count = 0, j = 0;
+    for (int i = 0; i < strlen(input); i++) {
+        output[j++] = input[i];
+        if (input[i] == '1') {
+            count++;
+            if (count == 5) {
+                output[j++] = '0'; // Stuff a 0 after 5 consecutive 1's
+                count = 0;
+            }
+        } else {
+            count = 0;
+        }
+    }
+    output[j] = '\0'; // Null-terminate the output string
+}
+
+// Function to perform bit de-stuffing
+void bitDeStuffing(char input[], char output[]) {
+    int count = 0, j = 0;
+    for (int i = 0; i < strlen(input); i++) {
+        output[j++] = input[i];
+        if (input[i] == '1') {
+            count++;
+            if (count == 5) {
+                i++; // Skip the stuffed 0
+                count = 0;
+            }
+        } else {
+            count = 0;
+        }
+    }
+    output[j] = '\0'; // Null-terminate the output string
+}
+
+int main() {
+    char input[100], stuffed[200], deStuffed[100];
+
+    printf("Enter the bit stream (only 0s and 1s): ");
+    scanf("%s", input);
+
+    // Perform bit stuffing
+    bitStuffing(input, stuffed);
+    printf("After Bit Stuffing: %s\n", stuffed);
+
+    // Perform bit de-stuffing
+    bitDeStuffing(stuffed, deStuffed);
+    printf("After Bit De-Stuffing: %s\n", deStuffed);
+
+    return 0;
+}
